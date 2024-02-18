@@ -2,7 +2,7 @@
 node_modules/
 
 # Ignore .env files
-.env
+config/process.env
 
 # Ignore npm lock files
 package-lock.json
