@@ -12,8 +12,8 @@ get routes:
 - /company/company-id
 
 post routes:
-- /resources/apply-now
-- /resources/learning
+- /resources/apply-now { application details }
+- /resources/learning { resource details }
 - /company { company details }
 - /company-timeline { time-line, { company details } }
 
