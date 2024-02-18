@@ -1,8 +1,8 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const connectDB = async () => {
   try {
-    console.log("MongoDB URI:", process.env.MONGO_URI); // Add this line
+    console.log("MongoDB URI:", process.env.MONGO_URI);
     const conn = await mongoose.connect(process.env.MONGO_URI, {
       autoIndex: true,
     });
@@ -12,4 +12,4 @@ const connectDB = async () => {
   }
 };
 
-module.exports = connectDB;
+export default connectDB;
