@@ -1,0 +1,19 @@
+statisticsSchema = {
+  year: {
+    type: Number,
+    required: true,
+  },
+  batch: {
+    type: String,
+    required: true,
+  },
+  totalStudentsInBatch: {
+    type: Number,
+    default: 0,
+  },
+  totalPlacements: {
+    type: Number,
+    default: 0,
+  },
+  // Add any other placement-related statistics you want to track
+}
