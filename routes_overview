@@ -1,0 +1,22 @@
+base path: /api/v1/cdpc
+
+get routes:
+- /stats
+- /notifications
+- /company-timeline/past
+- /company-timeline/present
+- /company-timeline/future
+- /resources/apply-now
+- /resources/learning
+- /companies-list
+- /company/company-id
+
+post routes:
+- /resources/apply-now
+- /resources/learning
+- /company { company details }
+- /company-timeline { time-line, { company details } }
+
+put routes:
+- /company { company details }
+
