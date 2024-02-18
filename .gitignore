@@ -1,11 +1,7 @@
 # Ignore node_modules
 node_modules/
 
-<<<<<<< HEAD
 # Ignore config process.env file
-=======
-# Ignore .env files
->>>>>>> f820ad1c570eff7435d492d6d31ce247c1bd998f
 config/process.env
 
 # Ignore npm lock files
