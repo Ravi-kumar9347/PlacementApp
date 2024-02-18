@@ -1,0 +1,43 @@
+alumniSchema = {
+  name: {
+    type: String,
+    required: true,
+  },
+  graduationYear: {
+    type: Number,
+    required: true,
+  },
+  branch: {
+    type: String,
+    required: true,
+  },
+  batch: {
+    type: String,
+    required: true,
+  },
+  role: {
+    type: String,
+    required: true,
+  },
+  currentCompany: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Company', // Reference to the Company model
+    required: true,
+  },
+  contactInformation: {
+    email: {
+      type: String,
+      required: true,
+    },
+    phone: {
+      type: String,
+    },
+    linkedinProfile: {
+      type: String,
+    },
+  },
+  image: {
+    type: String,
+  },
+}
+
