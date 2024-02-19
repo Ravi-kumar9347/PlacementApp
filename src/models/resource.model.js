@@ -10,14 +10,13 @@ const resourceSchema = mongoose.Schema({
     ref: "Company",
     required: false,
   },
-  applyLink: {
+  resourceLink: {
     type: String,
     required: true,
   },
   endDate: {
     type: String,
-    required: true,
   },
 });
 
-export const Resouce = mongoose.model("Resource", resourceSchema);
+export const Resoruce = mongoose.model("Resource", resourceSchema);
