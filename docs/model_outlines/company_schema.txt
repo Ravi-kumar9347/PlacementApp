@@ -12,5 +12,8 @@ const companySchema = new mongoose.Schema({
         alumni: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Alumni' }]
     }],
     visitStatus: { type: String, required: true } // values - past, present, future
+    Resouce: {
+        type: [resouce]
+    }
 });
 
