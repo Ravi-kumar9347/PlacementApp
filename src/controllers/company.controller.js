@@ -33,7 +33,7 @@ const addcompany = asyncMiddleware(async (req, res) => {
     if (!companyAdded) {
         throw new ApiError("500", "Unable to add company to the database.");
     }
-
+    
     return res
     .status(201)
     .json(new ApiResponse(
