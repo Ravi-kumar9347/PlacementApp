@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 
 const resourceSchema = mongoose.Schema({
     learning: {
-        type: boolean,
+        type: Boolean,
         required: true,
     },
     companyname: {

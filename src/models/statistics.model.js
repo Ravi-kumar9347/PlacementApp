@@ -1,4 +1,6 @@
-statisticsSchema = {
+import mongoose from "mongoose";
+
+const statisticsSchema = mongoose.Schema({
   batch: {
     type: String,
     required: true,
@@ -11,5 +13,6 @@ statisticsSchema = {
     type: Number,
     default: 0,
   },
-  // Add any other placement-related statistics you want to track
-}
+});
+
+export const Statistics = mongoose.model("Statistics", statisticsSchema);
