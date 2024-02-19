@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const companySchema = new mongoose.Schema({
   name: {
@@ -36,7 +36,7 @@ const companySchema = new mongoose.Schema({
       },
       alumni: [
         {
-          type: mongoose.Schema.Types.ObjectId,
+          type: Schema.Types.ObjectId,
           ref: "Alumni",
         },
       ],
@@ -46,8 +46,10 @@ const companySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  resource: {
+    type: Schema.Types.ObjectId,
+    ref: "Resource",
+  },
 });
 
-const Company = mongoose.model("Company", companySchema);
-
-export default Company;
+export const Company = mongoose.model("Company", companySchema);
