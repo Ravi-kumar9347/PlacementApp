@@ -11,6 +11,6 @@ const companySchema = new mongoose.Schema({
         year: { type: String },
         alumni: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Alumni' }]
     }],
-    active: { type: Boolean, required: true }
+    visitStatus: { type: String, required: true } // values - past, present, future
 });
 

@@ -1,0 +1,14 @@
+resouceSchema = {
+    companyname: {
+        type: String,
+        required: true,
+    },
+    applyLink: {
+        type: String,
+        required: true,
+    },
+    endDate: {
+        type: String,
+        required: true,
+    }
+}
