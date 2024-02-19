@@ -1,4 +1,8 @@
 resouceSchema = {
+    learning: {
+        type: boolean,
+        required: true,
+    }
     companyname: {
         type: String,
         required: true,
