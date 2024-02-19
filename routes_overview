@@ -1,3 +1,5 @@
+//prettier --write .
+
 base path: /api/v1/cdpc
 
 get routes:
