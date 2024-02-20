@@ -1,6 +1,11 @@
 import mongoose, { Schema } from "mongoose";
 
 const alumniSchema = new mongoose.Schema({
+  userName: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   name: {
     type: String,
     required: true,
@@ -40,6 +45,7 @@ const alumniSchema = new mongoose.Schema({
   },
   image: {
     type: String,
+    required: true,
   },
 });
 
