@@ -19,4 +19,4 @@ const resourceSchema = mongoose.Schema({
   },
 });
 
-export const Resoruce = mongoose.model("Resource", resourceSchema);
+export const Resource = mongoose.model("Resource", resourceSchema);

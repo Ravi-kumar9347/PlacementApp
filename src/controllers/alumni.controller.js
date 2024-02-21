@@ -1,9 +1,10 @@
-import { Alumni } from "../models/alumni.model";
-import { Company } from "../models/company.model";
-import { asyncMiddleware } from "../middlewares/asyncHandler";
-import { ApiError, ApiResponse } from "../utils/ApiError";
+import { Alumni } from "../models/alumni.model.js";
+import { Company } from "../models/company.model.js";
+import { asyncMiddleware } from "../middlewares/asyncHandler.js";
+import { ApiError } from "../utils/ApiError.js";
+import { ApiResponse } from "../utils/ApiResponse.js";
 
-export const addAlumni = asyncMiddleware(async (req, res) => {
+const addAlumni = asyncMiddleware(async (req, res) => {
   const {
     userName,
     name,
@@ -59,3 +60,5 @@ export const addAlumni = asyncMiddleware(async (req, res) => {
       )
     );
 });
+
+export {addAlumni};

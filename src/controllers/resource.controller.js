@@ -3,7 +3,7 @@ import { Resource } from "../models/resource.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
-export const addResource = asyncMiddleware(async (req, res) => {
+const addResource = asyncMiddleware(async (req, res) => {
   const { learning, companyname, resourceLink, endDate } = req.body;
 
   const required = (attribute) => `${attribute} is required.`;
@@ -22,3 +22,5 @@ export const addResource = asyncMiddleware(async (req, res) => {
       new ApiResponse(200, createdResource, "successfully created resource."),
     );
 });
+
+export {addResource};

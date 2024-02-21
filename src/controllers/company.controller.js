@@ -3,7 +3,7 @@ import { Company } from "../models/company.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
-export const addcompany = asyncMiddleware(async (req, res) => {
+const addcompany = asyncMiddleware(async (req, res) => {
   const { name, location, visitStatus } = req.body;
 
   const required = (attribute) => `Company ${attribute} is required.`;
@@ -40,3 +40,5 @@ export const addcompany = asyncMiddleware(async (req, res) => {
       ),
     );
 });
+
+export {addcompany};

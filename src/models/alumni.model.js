@@ -11,7 +11,7 @@ const alumniSchema = new mongoose.Schema({
     required: true,
   },
   graduationYear: {
-    type: Number,
+    type: String,
     required: true,
   },
   branch: {

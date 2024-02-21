@@ -1,8 +1,10 @@
-import { Statistics } from "../models/statistics.model";
-import { asyncMiddleware } from "../middlewares/asyncHandler";
-import { ApiError, ApiResponse } from "../utils/ApiError";
+import { Statistics } from "../models/statistics.model.js";
+import { asyncMiddleware } from "../middlewares/asyncHandler.js";
+import { ApiError } from "../utils/ApiError.js";
+import { ApiResponse } from "../utils/ApiResponse.js";
 
-export const createStatistics = asyncMiddleware(async (req, res, next) => {
+
+const addStatistics = asyncMiddleware(async (req, res, next) => {
   const { batch, totalStudentsInBatch, totalPlacements } = req.body;
 
   const required = (attribute) => `Statistics ${attribute} is required.`;
@@ -33,3 +35,5 @@ export const createStatistics = asyncMiddleware(async (req, res, next) => {
       new ApiResponse(200, newStatistics, "Statistics created successfully")
     );
 });
+
+export {addStatistics}

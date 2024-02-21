@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { createStatistics } from "../controllers/statistics.controller";
+import { addStatistics } from "../controllers/statistics.controller.js";
 
 const router = Router();
 
-router.route("/create").post(createStatistics);
+router.route("/create").post(addStatistics);
 
-export default router;
+export const statisticsRouter = router;
