@@ -16,26 +16,22 @@ export const addAlumni = asyncMiddleware(async (req, res) => {
     image,
   } = req.body;
 
-  const required = (attribute) => `Alumni ${attribute} is required`;
+  const requiredFields = [
+    "userName",
+    "name",
+    "graduationYear",
+    "branch",
+    "batch",
+    "role",
+    "currentCompany",
+    "image",
+    "contactInformation.email",
+  ];
 
-  if (!userName) {
-    throw new ApiError(400, required("username"));
-  } else if (!name) {
-    throw new ApiError(400, required("name"));
-  } else if (!graduationYear) {
-    throw new ApiError(400, required("graduation year"));
-  } else if (!branch) {
-    throw new ApiError(400, required("branch"));
-  } else if (!batch) {
-    throw new ApiError(400, required("batch"));
-  } else if (!role) {
-    throw new ApiError(400, required("role"));
-  } else if (!currentCompany) {
-    throw new ApiError(400, required("current company"));
-  } else if (!contactInformation || !contactInformation.email) {
-    throw new ApiError(400, required("contact email"));
-  } else if (!image) {
-    throw new ApiError(400, required("image"));
+  for (const field of requiredFields) {
+    if (!getFieldValue(req.body, field)) {
+      throw new ApiError(400, `Alumni ${field} is required`);
+    }
   }
 
   const alumniExists = await Alumni.findOne({ userName });
@@ -59,7 +55,7 @@ export const addAlumni = asyncMiddleware(async (req, res) => {
       new ApiResponse(
         200,
         alumniAdded,
-        "successfully added alumni to the database.",
-      ),
+        "successfully added alumni to the database."
+      )
     );
 });

@@ -30,6 +30,6 @@ export const createStatistics = asyncMiddleware(async (req, res, next) => {
   return res
     .status(201)
     .json(
-      new ApiResponse(200, newStatistics, "Statistics created successfully"),
+      new ApiResponse(200, newStatistics, "Statistics created successfully")
     );
 });
