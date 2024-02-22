@@ -5,10 +5,9 @@ const resourceSchema = mongoose.Schema({
     type: Boolean,
     required: true,
   },
-  companyname: {
+  companyName: {
     type: Schema.Types.ObjectId,
     ref: "Company",
-    required: false,
   },
   resourceLink: {
     type: String,

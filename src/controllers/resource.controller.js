@@ -4,7 +4,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
 const addResource = asyncMiddleware(async (req, res) => {
-  const { learning, companyname, resourceLink, endDate } = req.body;
+  const { learning, resourceLink } = req.body;
 
   const required = (attribute) => `${attribute} is required.`;
 
