@@ -10,6 +10,7 @@ const addAlumni = asyncMiddleware(async (req, res) => {
     name,
     branch,
     batch,
+    hiredCompanyId,
     role,
     contactInformation,
     image,
@@ -21,44 +22,49 @@ const addAlumni = asyncMiddleware(async (req, res) => {
     "graduationYear",
     "branch",
     "batch",
+    "hiredCompanyId",
     "role",
     "image",
     "contactInformation.email",
   ];
 
-  for (const field of requiredFields) {
-    if (!getFieldValue(req.body, field)) {
-      throw new ApiError(400, `Alumni ${field} is required`);
-    }
-  }
+  // for (const field of requiredFields) {
+  //   if (!getFieldValue(req.body, field)) {
+  //     throw new ApiError(400, `Alumni ${field} is required`);
+  //   }
+  // }
 
   const alumniExists = await Alumni.findOne({ userName });
   if (alumniExists) {
     throw new ApiError(409, "username already exists.");
   }
 
-  const company = await Company.findOne({ currentCompany });
+  const company = await Company.findOne({ companyId: hiredCompanyId });
   if (!company) {
     throw new ApiError(404, "Company not found.");
   }
 
-  const alumniAdded = Alumni.create(req.body);
-  if (!alumniAdded) {
-    throw new ApiError("500", "Unable to add alumni to the database.");
-  }
+  const newAlumni = new Alumni(req.body);
 
-  // const newAlumni = new Alumni(req.body);
+  newAlumni.save().then(async (savedAlumni) => {
+    const pastHiringRecord = company.pastHiring.find((record) => record.batch === batch)
 
-  // newAlumni.save().then(async (savedAlumni) => {
-  //   await Company.find
-  // })
+    console.log(pastHiringRecord);
+    if (!pastHiringRecord) {
+      company.pastHiring.push({batch: batch, alumni: [savedAlumni._id]});
+    } else {
+      pastHiringRecord.alumni.push(savedAlumni._id);
+    }
+
+    await company.save();
+  })
 
   return res
     .status(201)
     .json(
       new ApiResponse(
         200,
-        alumniAdded,
+        newAlumni,
         "successfully added alumni to the database."
       )
     );

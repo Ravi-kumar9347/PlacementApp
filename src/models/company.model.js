@@ -36,7 +36,7 @@ const companySchema = new mongoose.Schema({
   },
   pastHiring: [
     {
-      year: {
+      batch: {
         type: String,
       },
       alumni: [

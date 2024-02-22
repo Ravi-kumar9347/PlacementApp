@@ -71,4 +71,4 @@ const getCompanyById = asyncMiddleware(async (req, res) => {
     .json(new ApiResponse(200, company, "Company retrieved successfully"));
 });
 
-export { addcompany };
+export { addcompany, getCompanies };
