@@ -3,7 +3,6 @@ import { asyncMiddleware } from "../middlewares/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
-
 const addStatistics = asyncMiddleware(async (req, res, next) => {
   const { batch, totalStudentsInBatch, totalPlacements } = req.body;
 
@@ -36,4 +35,15 @@ const addStatistics = asyncMiddleware(async (req, res, next) => {
     );
 });
 
-export {addStatistics}
+//get statistics controller
+const getStatistics = asyncMiddleware(async (req, res) => {
+  const statistics = await Statistics.find();
+
+  res
+    .status(200)
+    .json(
+      new ApiResponse(200, statistics, "Statistics retrieved successfully")
+    );
+});
+
+export { addStatistics };

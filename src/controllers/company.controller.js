@@ -4,11 +4,13 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
 const addcompany = asyncMiddleware(async (req, res) => {
-  const { name, location, visitStatus } = req.body;
+  const { companyId, name, location, visitStatus } = req.body;
 
   const required = (attribute) => `Company ${attribute} is required.`;
 
-  if (!name) {
+  if (!companyId) {
+    throw new ApiError(400, required("companyId"));
+  } else if (!name) {
     throw new ApiError(400, required("name"));
   } else if (!location) {
     throw new ApiError(400, required("location"));
@@ -17,7 +19,7 @@ const addcompany = asyncMiddleware(async (req, res) => {
   }
 
   const companyExists = Company.findOne({
-    name,
+    companyId,
   });
 
   if (companyExists) {
@@ -36,9 +38,36 @@ const addcompany = asyncMiddleware(async (req, res) => {
       new ApiResponse(
         200,
         companyAdded,
-        "successfully added company to the database.",
-      ),
+        "successfully added company to the database."
+      )
     );
 });
 
-export {addcompany};
+//get companies controller
+const getCompanies = asyncMiddleware(async (req, res) => {
+  const companies = await Company.find();
+
+  res
+    .status(200)
+    .json(new ApiResponse(200, companies, "Companies retrieved successfully"));
+});
+
+//get single company by id
+const getCompanyById = asyncMiddleware(async (req, res) => {
+  const companyId = req.params.companyId;
+
+  if (!companyId || isNaN(companyId)) {
+    throw new ApiError(400, "Invalid companyId provided.");
+  }
+
+  const company = Company.findOne({ companyId });
+  if (!company) {
+    throw new ApiError(400, "Company not found.");
+  }
+
+  res
+    .status(200)
+    .json(new ApiResponse(200, company, "Company retrieved successfully"));
+});
+
+export { addcompany };
