@@ -16,23 +16,21 @@ const addAlumni = asyncMiddleware(async (req, res) => {
     image,
   } = req.body;
 
-  const requiredFields = [
-    "userName",
-    "name",
-    "graduationYear",
-    "branch",
-    "batch",
-    "hiredCompanyId",
-    "role",
-    "image",
-    "contactInformation.email",
-  ];
+  const requiredFields = {
+    userName: "User Name",
+    name: "Name",
+    branch: "Branch",
+    batch: "Batch",
+    hiredCompanyId: "Hired Company ID",
+    role: "Role",
+    "contactInformation.email": "Email",
+  };
 
-  // for (const field of requiredFields) {
-  //   if (!getFieldValue(req.body, field)) {
-  //     throw new ApiError(400, `Alumni ${field} is required`);
-  //   }
-  // }
+  for (const [field, label] of Object.entries(requiredFields)) {
+    if (!req.body[field]) {
+      throw new ApiError(400, `${label} is required`);
+    }
+  }
 
   const alumniExists = await Alumni.findOne({ userName });
   if (alumniExists) {
@@ -47,17 +45,16 @@ const addAlumni = asyncMiddleware(async (req, res) => {
   const newAlumni = new Alumni(req.body);
 
   newAlumni.save().then(async (savedAlumni) => {
-    const pastHiringRecord = company.pastHiring.find((record) => record.batch === batch)
-
-    console.log(pastHiringRecord);
+    const pastHiringRecord = company.pastHiring.find(
+      (record) => record.batch === batch
+    );
     if (!pastHiringRecord) {
-      company.pastHiring.push({batch: batch, alumni: [savedAlumni._id]});
+      company.pastHiring.push({ batch: batch, alumni: [savedAlumni._id] });
     } else {
       pastHiringRecord.alumni.push(savedAlumni._id);
     }
-
     await company.save();
-  })
+  });
 
   return res
     .status(201)
@@ -70,4 +67,4 @@ const addAlumni = asyncMiddleware(async (req, res) => {
     );
 });
 
-export {addAlumni};
+export { addAlumni };
