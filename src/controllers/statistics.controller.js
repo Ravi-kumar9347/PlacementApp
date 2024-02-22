@@ -18,11 +18,12 @@ const addStatistics = asyncMiddleware(async (req, res, next) => {
 
   const existingStatistics = await Statistics.findOne({ batch });
   if (existingStatistics) {
-    const uniqueError = new ApiError(400, "Batch must be unique.");
-    return res.status(400).json(uniqueError);
+    throw new ApiError(400, "Batch must be unique.");
   }
 
-  const newStatistics = Statistics.create(req.body);
+  const newStatistics = new Statistics(req.body);
+
+  await newStatistics.save();
 
   if (!newStatistics) {
     throw new ApiError("500", "Unable to add statistics to the database.");

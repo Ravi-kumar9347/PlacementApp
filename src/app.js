@@ -7,6 +7,8 @@ import { statisticsRouter } from "./routes/statistics.routes.js";
 
 const app = express();
 
+app.use(express.json())
+
 const basePath = "/api/v1/cdpc";
 
 app.use(basePath + "/alumni", alumniRouter);

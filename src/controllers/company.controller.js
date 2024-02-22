@@ -6,7 +6,7 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 const addcompany = asyncMiddleware(async (req, res) => {
   const { companyId, name, location, visitStatus } = req.body;
 
-  const required = (attribute) => `Company ${attribute} is required.`;
+  const required = (attribute) => `${attribute} is required.`;
 
   if (!companyId) {
     throw new ApiError(400, required("companyId"));
@@ -17,16 +17,18 @@ const addcompany = asyncMiddleware(async (req, res) => {
   } else if (!visitStatus) {
     throw new ApiError(400, required("visit status"));
   }
-
   const companyExists = Company.findOne({
-    companyId,
+    companyName,
   });
 
+  console.log(companyExists);
   if (companyExists) {
     throw new ApiError(409, "Company already exists.");
   }
 
-  const companyAdded = Company.create(req.body);
+  const companyAdded = new Company(req.body);
+
+  await companyAdded.save();
 
   if (!companyAdded) {
     throw new ApiError("500", "Unable to add company to the database.");

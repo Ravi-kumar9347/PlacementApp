@@ -3,6 +3,6 @@ import { addStatistics } from "../controllers/statistics.controller.js";
 
 const router = Router();
 
-router.route("/create").post(addStatistics);
+router.route("/add").post(addStatistics);
 
 export const statisticsRouter = router;
