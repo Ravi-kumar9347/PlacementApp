@@ -17,11 +17,10 @@ const addcompany = asyncMiddleware(async (req, res) => {
   } else if (!visitStatus) {
     throw new ApiError(400, required("visit status"));
   }
-  const companyExists = Company.findOne({
-    companyName,
+  const companyExists = await Company.findOne({
+    companyId,
   });
 
-  console.log(companyExists);
   if (companyExists) {
     throw new ApiError(409, "Company already exists.");
   }

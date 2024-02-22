@@ -10,10 +10,6 @@ const alumniSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  graduationYear: {
-    type: String,
-    required: true,
-  },
   branch: {
     type: String,
     required: true,
@@ -26,10 +22,9 @@ const alumniSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  currentCompany: {
+  hiredCompany: {
     type: Schema.Types.ObjectId,
     ref: "Company",
-    required: true,
   },
   contactInformation: {
     email: {

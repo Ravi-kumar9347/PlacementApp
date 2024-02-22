@@ -8,11 +8,9 @@ const addAlumni = asyncMiddleware(async (req, res) => {
   const {
     userName,
     name,
-    graduationYear,
     branch,
     batch,
     role,
-    currentCompany,
     contactInformation,
     image,
   } = req.body;
@@ -24,7 +22,6 @@ const addAlumni = asyncMiddleware(async (req, res) => {
     "branch",
     "batch",
     "role",
-    "currentCompany",
     "image",
     "contactInformation.email",
   ];
@@ -49,6 +46,12 @@ const addAlumni = asyncMiddleware(async (req, res) => {
   if (!alumniAdded) {
     throw new ApiError("500", "Unable to add alumni to the database.");
   }
+
+  // const newAlumni = new Alumni(req.body);
+
+  // newAlumni.save().then(async (savedAlumni) => {
+  //   await Company.find
+  // })
 
   return res
     .status(201)
