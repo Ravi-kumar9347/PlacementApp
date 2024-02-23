@@ -37,7 +37,7 @@ const addAlumni = asyncMiddleware(async (req, res) => {
     throw new ApiError(409, "username already exists.");
   }
 
-  const company = await Company.findOne({ companyId: hiredCompanyId });
+  const company = await Company.findOne({ id: hiredCompanyId });
   if (!company) {
     throw new ApiError(404, "Company not found.");
   }

@@ -26,6 +26,6 @@ const companyUpdatesSchema = new mongoose.Schema({
 });
 
 export const CompanyUpdates = mongoose.model(
-  "CompanyUpdates",
+  "CompanyUpdate",
   companyUpdatesSchema
 );
