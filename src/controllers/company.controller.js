@@ -26,7 +26,7 @@ const addcompany = asyncMiddleware(async (req, res) => {
   }
 
   const companyAdded = new Company(req.body);
-
+  console.log(companyAdded);
   await companyAdded.save();
 
   if (!companyAdded) {
@@ -55,13 +55,13 @@ const getCompanies = asyncMiddleware(async (req, res) => {
 
 //get single company by id
 const getCompanyById = asyncMiddleware(async (req, res) => {
-  const id = req.params.id;
+  const id = req.query.id;
 
-  if (!id || isNaN(id)) {
-    throw new ApiError(400, "Invalid id provided.");
+  if (!id) {
+    throw new ApiError(400, "Please Provide Company Id.");
   }
 
-  const company = Company.findOne({ id });
+  const company = await Company.findOne({ id });
   if (!company) {
     throw new ApiError(400, "Company not found.");
   }
@@ -71,4 +71,4 @@ const getCompanyById = asyncMiddleware(async (req, res) => {
     .json(new ApiResponse(200, company, "Company retrieved successfully"));
 });
 
-export { addcompany, getCompanies };
+export { addcompany, getCompanies, getCompanyById };

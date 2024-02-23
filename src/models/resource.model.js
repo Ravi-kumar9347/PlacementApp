@@ -2,10 +2,10 @@ import mongoose, { Schema } from "mongoose";
 
 const resourceSchema = mongoose.Schema({
   learning: {
-    type: Boolean,
+    type: Boolean, //learning -> true -> learning resource else apply resource
     required: true,
   },
-  companyName: {
+  companyId: {
     type: Schema.Types.ObjectId,
     ref: "Company",
   },
