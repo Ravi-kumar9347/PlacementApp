@@ -62,10 +62,8 @@ const getResources = asyncMiddleware(async (req, res) => {
 
 // Update Resource by resource id
 const updateResource = asyncMiddleware(async (req, res) => {
-  // Extract resource id from the request query parameters
-  const resourceId = req.query.id;
   // Extract updated data from the request body
-  const { learning, companyId, resourceLink, endDate } = req.body;
+  const { resourceId, learning, companyId, resourceLink, endDate } = req.body;
 
   // Check if the resource id is valid
   if (!resourceId || !mongoose.Types.ObjectId.isValid(resourceId)) {
@@ -79,7 +77,7 @@ const updateResource = asyncMiddleware(async (req, res) => {
   }
 
   // If companyId is provided
-  if (companyId !== undefined) {
+  if (companyId) {
     // Find the company by companyId
     const company = await Company.findOne({ id: companyId });
     if (!company) {
@@ -110,15 +108,11 @@ const updateResource = asyncMiddleware(async (req, res) => {
   }
 
   // Update fields based on the provided data
-  if (learning !== undefined) {
-    existingResource.learning = learning;
-  }
-  if (resourceLink !== undefined) {
-    existingResource.resourceLink = resourceLink;
-  }
-  if (endDate !== undefined) {
-    existingResource.endDate = endDate;
-  }
+  Object.keys(req.body).forEach((key) => {
+    if (key !== "resourceId" && key !== "companyId") {
+      existingResource[key] = req.body[key];
+    }
+  });
 
   // Save the updated resource
   await existingResource.save();
@@ -133,8 +127,8 @@ const updateResource = asyncMiddleware(async (req, res) => {
 
 // Delete Resource by resource id
 const deleteResource = asyncMiddleware(async (req, res) => {
-  // Extract resource id from the request query parameters
-  const resourceId = req.query.id;
+  // Extract resource id from the request body
+  const { resourceId } = req.body;
 
   // Check if the resource id is valid
   if (!resourceId || !mongoose.Types.ObjectId.isValid(resourceId)) {

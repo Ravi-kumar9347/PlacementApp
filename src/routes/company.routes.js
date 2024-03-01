@@ -1,6 +1,6 @@
 import { Router } from "express";
 import {
-  addcompany,
+  addCompany,
   getCompanies,
   getCompanyById,
   updateCompany,
@@ -9,7 +9,7 @@ import {
 
 const router = Router();
 
-router.route("/add").post(addcompany);
+router.route("/add").post(addCompany);
 router.route("/get").get(getCompanies);
 router.route("/getById").get(getCompanyById);
 router.route("/update").put(updateCompany);

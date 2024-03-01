@@ -60,8 +60,8 @@ const getCompanies = asyncMiddleware(async (req, res) => {
 
 // Get Company By Id
 const getCompanyById = asyncMiddleware(async (req, res) => {
-  // Extract the company ID from the request query parameters
-  const id = req.query.id;
+  // Extract the company ID from the request body
+  const { id } = req.body;
 
   // Check if a valid company ID is provided
   if (!id) {
@@ -83,8 +83,8 @@ const getCompanyById = asyncMiddleware(async (req, res) => {
 
 // Update Company
 const updateCompany = asyncMiddleware(async (req, res) => {
-  // Extract the company ID from the request query parameters
-  const companyId = req.query.id;
+  // Extract the company ID from the request body
+  const { companyId } = req.body;
 
   // Check if a valid company ID is provided
   if (!companyId) {
@@ -111,8 +111,8 @@ const updateCompany = asyncMiddleware(async (req, res) => {
 
 // Delete Company
 const deleteCompany = asyncMiddleware(async (req, res) => {
-  // Extract the company ID from the request query parameters
-  const companyId = req.query.id;
+  // Extract the company ID from the request body
+  const { companyId } = req.body;
 
   // Check if a valid company ID is provided
   if (!companyId) {

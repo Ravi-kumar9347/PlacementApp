@@ -9,6 +9,7 @@ const router = Router();
 
 router.route("/add").post(addOrUpdateStatistics);
 router.route("/get").get(getStatistics);
+router.route("/update").put(addOrUpdateStatistics);
 router.route("/delete").delete(deleteStatistics);
 
 export const statisticsRouter = router;

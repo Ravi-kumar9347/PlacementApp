@@ -60,8 +60,8 @@ const AddCompanyUpdate = asyncMiddleware(async (req, res) => {
 
 // Get CompanyUpdates By Company Id
 const getCompanyUpadtesById = asyncMiddleware(async (req, res) => {
-  // Extract companyId from the request query parameters
-  const companyId = req.query.id;
+  // Extract companyId from the request body
+  const { companyId } = req.body;
 
   // Check if companyId is provided
   if (!companyId) {
@@ -93,10 +93,8 @@ const getCompanyUpadtesById = asyncMiddleware(async (req, res) => {
 
 // Update CompanyUpdates By CompanyId and UpdateId
 const updateCompanyUpdates = asyncMiddleware(async (req, res) => {
-  // Extract companyId and updateId from the request query parameters
-  const { companyId, updateId } = req.query;
-  // Extract updated data from the request body
-  const updatedUpdate = req.body;
+  // Extract companyId and updateId from the request body
+  const { companyId, updateId, updates } = req.body;
 
   // Check if companyId is provided
   if (!companyId) {
@@ -123,15 +121,11 @@ const updateCompanyUpdates = asyncMiddleware(async (req, res) => {
   }
 
   // Update fields based on the model structure
-  if (updatedUpdate.updateMessage) {
-    existingUpdate.updateMessage = updatedUpdate.updateMessage;
-  }
-  if (updatedUpdate.images) {
-    existingUpdate.images = updatedUpdate.images;
-  }
-  if (updatedUpdate.links) {
-    existingUpdate.links = updatedUpdate.links;
-  }
+  Object.keys(updates[0]).forEach((key) => {
+    if (updates[0][key]) {
+      existingUpdate[key] = updates[0][key];
+    }
+  });
 
   // Save the updated CompanyUpdates
   await companyUpdates.save();
@@ -150,8 +144,8 @@ const updateCompanyUpdates = asyncMiddleware(async (req, res) => {
 
 // Delete Company Updates By companyId and UpdateId
 const deleteCompanyUpdate = asyncMiddleware(async (req, res) => {
-  // Extract companyId and updateId from the request query parameters
-  const { companyId, updateId } = req.query;
+  // Extract companyId and updateId from the request body
+  const { companyId, updateId } = req.body;
 
   // Check if companyId is provided
   if (!companyId) {
@@ -170,31 +164,33 @@ const deleteCompanyUpdate = asyncMiddleware(async (req, res) => {
     throw new ApiError(404, "Please Provide Update Id.");
   }
 
-  // Find the existing update within CompanyUpdates by updateId
-  const existingUpdate = companyUpdates.updates.id(updateId);
-  // Check if the existing update is found
-  if (!existingUpdate) {
-    throw new ApiError(404, "Update not found.");
-  }
-
-  // Filter out the update with the specified updateId
-  companyUpdates.updates = companyUpdates.updates.filter(
-    (update) => update._id.toString() !== updateId
+  // Find the index of the update with the specified updateId
+  const indexToRemove = companyUpdates.updates.findIndex(
+    (update) => update._id.toString() === updateId
   );
 
-  // Save the updated CompanyUpdates
-  await companyUpdates.save();
+  // Check if the update with updateId was found
+  if (indexToRemove !== -1) {
+    // Remove the update at the found index
+    companyUpdates.updates.splice(indexToRemove, 1);
 
-  // Return a success response with the deleted update data
-  return res
-    .status(200)
-    .json(
-      new ApiResponse(
-        200,
-        { _id: updateId },
-        "CompanyUpdate successfully deleted."
-      )
-    );
+    // Save the updated CompanyUpdates
+    await companyUpdates.save();
+
+    // Return a success response with the deleted update data
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(
+          200,
+          { _id: updateId },
+          "CompanyUpdate successfully deleted."
+        )
+      );
+  } else {
+    // If update with updateId was not found, return an error response
+    throw new ApiError(404, "Update not found.");
+  }
 });
 
 // Export the CompanyUpdates controllers

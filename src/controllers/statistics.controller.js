@@ -73,8 +73,8 @@ const getStatistics = asyncMiddleware(async (req, res) => {
 
 // Delete Statistics By Batch
 const deleteStatistics = asyncMiddleware(async (req, res) => {
-  // Extract batch from the request query parameters
-  const batch = req.query.batch;
+  // Extract batch from the request body
+  const {batch} = req.body;
 
   // Check if batch parameter is provided
   if (!batch) {
