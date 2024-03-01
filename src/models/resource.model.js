@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 
 const resourceSchema = mongoose.Schema({
   learning: {
-    type: Boolean, //learning -> true -> learning resource else apply resource
+    type: Boolean, //learning == true -> learning resource else apply resource
     required: true,
   },
   companyId: {

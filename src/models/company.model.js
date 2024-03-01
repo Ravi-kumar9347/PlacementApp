@@ -1,69 +1,62 @@
 import mongoose, { Schema } from "mongoose";
 
-const companySchema = new mongoose.Schema(
-  {
-    id: {
+const companySchema = new mongoose.Schema({
+  id: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+  },
+  logo: {
+    type: String,
+  },
+  images: [
+    {
       type: String,
-      required: true,
-      unique: true,
     },
-    name: {
-      type: String,
-      required: true,
-    },
-    description: {
-      type: String,
-    },
-    logo: {
-      type: String,
-    },
-    images: [
-      {
+  ],
+  location: {
+    type: String,
+    required: true,
+  },
+  linkedin: {
+    type: String,
+  },
+  instagram: {
+    type: String,
+  },
+  website: {
+    type: String,
+  },
+  pastHiring: [
+    {
+      batch: {
         type: String,
       },
-    ],
-    location: {
-      type: String,
-      required: true,
-    },
-    linkedin: {
-      type: String,
-    },
-    instagram: {
-      type: String,
-    },
-    website: {
-      type: String,
-    },
-    pastHiring: [
-      {
-        batch: {
-          type: String,
+      alumni: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "Alumni",
         },
-        alumni: [
-          {
-            type: Schema.Types.ObjectId,
-            ref: "Alumni",
-          },
-        ],
-      },
-    ],
-    visitStatus: {
-      type: String,
-      required: true,
+      ],
     },
-    resource: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Resource",
-      },
-    ],
+  ],
+  visitStatus: {
+    type: String,
+    required: true,
   },
-  { toJSON: { virtuals: true }, id: false }
-);
-
-companySchema.virtual("companyId").get(function () {
-  return this.id;
+  resource: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Resource",
+    },
+  ],
 });
 
 export const Company = mongoose.model("Company", companySchema);

@@ -1,8 +1,14 @@
 import { Router } from "express";
-import { addStatistics } from "../controllers/statistics.controller.js";
+import {
+  addOrUpdateStatistics,
+  getStatistics,
+  deleteStatistics,
+} from "../controllers/statistics.controller.js";
 
 const router = Router();
 
-router.route("/add").post(addStatistics);
+router.route("/add").post(addOrUpdateStatistics);
+router.route("/get").get(getStatistics);
+router.route("/delete").delete(deleteStatistics);
 
 export const statisticsRouter = router;
