@@ -32,7 +32,7 @@ const addResource = asyncMiddleware(async (req, res) => {
   // Create a new Resource instance and save it
   const newResource = new Resource({
     learning,
-    companyId: company._id,
+    companyId,
     resourceLink,
     endDate,
   });
@@ -85,7 +85,7 @@ const updateResource = asyncMiddleware(async (req, res) => {
     }
 
     // If the provided companyId is different from the existing companyId, update references
-    if (String(company._id) !== String(existingResource.companyId)) {
+    if (String(companyId) !== String(existingResource.companyId)) {
       // Find the existing company by existing companyId
       const existingCompany = await Company.findById(
         existingResource.companyId
@@ -103,7 +103,7 @@ const updateResource = asyncMiddleware(async (req, res) => {
       company.resource.push(existingResource._id);
       await company.save();
 
-      existingResource.companyId = company._id;
+      existingResource.companyId = company.id;
     }
   }
 

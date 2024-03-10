@@ -6,8 +6,8 @@ const resourceSchema = mongoose.Schema({
     required: true,
   },
   companyId: {
-    type: Schema.Types.ObjectId,
-    ref: "Company",
+    type: String,
+    required: true,
   },
   resourceLink: {
     type: String,
