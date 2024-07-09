@@ -48,7 +48,7 @@ const AddCompanyUpdate = asyncMiddleware(async (req, res) => {
 
   // Return a success response with the existing CompanyUpdates data
   return res
-    .status(201)
+    .status(200)
     .json(
       new ApiResponse(
         200,

@@ -3,21 +3,35 @@ import { asyncMiddleware } from "../middlewares/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
-// Add or Update Statistics through this Controller
 const addOrUpdateStatistics = asyncMiddleware(async (req, res, next) => {
-  // Extract batch, totalStudentsInBatch, and totalPlacements from the request body
-  const { batch, totalStudentsInBatch, totalPlacements } = req.body;
+  // Extract all relevant fields from the request body
+  const {
+    batch,
+    totalStudentsInBatch,
+    totalPlacements,
+    totalBoys,
+    totalGirls,
+    numberOfBoysPlaced,
+    numberOfGirlsPlaced,
+  } = req.body;
 
-  // Define a function to generate a required attribute error message
-  const required = (attribute) => `Statistics ${attribute} is required.`;
+  // Define required fields with their corresponding labels
+  const requiredFields = {
+    batch: "Batch",
+    totalStudentsInBatch: "Total Students in Batch",
+    totalPlacements: "Total Placements",
+    totalBoys: "Total Boys",
+    totalGirls: "Total Girls",
+    numberOfBoysPlaced: "Number of Boys Placed",
+    numberOfGirlsPlaced: "Number of Girls Placed",
+  };
 
-  // Check for the presence of required fields
-  if (!batch) {
-    throw new ApiError(400, required("batch"));
-  } else if (!totalStudentsInBatch) {
-    throw new ApiError(400, required("total students in batch"));
-  } else if (!totalPlacements) {
-    throw new ApiError(400, required("total placements"));
+  // Check if required fields are provided
+  for (const [field, label] of Object.entries(requiredFields)) {
+    if (req.body[field] === undefined) {
+      // Using `undefined` to check for all falsy values including 0 and empty strings
+      throw new ApiError(400, `${label} is required`);
+    }
   }
 
   // Find existing statistics by batch
@@ -27,6 +41,10 @@ const addOrUpdateStatistics = asyncMiddleware(async (req, res, next) => {
   if (existingStatistics) {
     existingStatistics.totalStudentsInBatch = totalStudentsInBatch;
     existingStatistics.totalPlacements = totalPlacements;
+    existingStatistics.totalBoys = totalBoys;
+    existingStatistics.totalGirls = totalGirls;
+    existingStatistics.numberOfBoysPlaced = numberOfBoysPlaced;
+    existingStatistics.numberOfGirlsPlaced = numberOfGirlsPlaced;
     await existingStatistics.save();
 
     // Return a success response with the updated statistics data
@@ -74,7 +92,7 @@ const getStatistics = asyncMiddleware(async (req, res) => {
 // Delete Statistics By Batch
 const deleteStatistics = asyncMiddleware(async (req, res) => {
   // Extract batch from the request body
-  const {batch} = req.body;
+  const { batch } = req.body;
 
   // Check if batch parameter is provided
   if (!batch) {

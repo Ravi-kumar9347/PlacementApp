@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const statisticsSchema = mongoose.Schema({
+const statisticsSchema = new mongoose.Schema({
   batch: {
     type: String,
     required: true,
@@ -12,6 +12,26 @@ const statisticsSchema = mongoose.Schema({
     required: true,
   },
   totalPlacements: {
+    type: Number,
+    default: 0,
+    required: true,
+  },
+  totalBoys: {
+    type: Number,
+    default: 0,
+    required: true,
+  },
+  totalGirls: {
+    type: Number,
+    default: 0,
+    required: true,
+  },
+  numberOfBoysPlaced: {
+    type: Number,
+    default: 0,
+    required: true,
+  },
+  numberOfGirlsPlaced: {
     type: Number,
     default: 0,
     required: true,

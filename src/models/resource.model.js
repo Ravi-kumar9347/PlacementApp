@@ -1,13 +1,15 @@
 import mongoose, { Schema } from "mongoose";
 
-const resourceSchema = mongoose.Schema({
+const resourceSchema = new mongoose.Schema({
   learning: {
-    type: Boolean, //learning == true -> learning resource else apply resource
+    type: Boolean, // learning == true -> learning resource else apply resource
     required: true,
   },
   companyId: {
     type: String,
-    required: true,
+  },
+  resourceName: {
+    type: String,
   },
   resourceLink: {
     type: String,

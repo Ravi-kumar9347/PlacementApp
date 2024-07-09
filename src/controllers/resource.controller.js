@@ -5,43 +5,41 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import mongoose from "mongoose";
 
-// Add Resource
 const addResource = asyncMiddleware(async (req, res) => {
   // Extract required fields from the request body
-  const { learning, companyId, resourceLink, endDate } = req.body;
-
-  // Define required fields and check for their presence
-  const requiredFields = {
-    learning: "Learning",
-    companyId: "Company ID",
-    resourceLink: "Resource Link",
-  };
-
-  for (const [field, label] of Object.entries(requiredFields)) {
-    if (!req.body[field]) {
-      throw new ApiError(400, `${label} is required`);
-    }
+  const { learning, companyId, resourceName, resourceLink, endDate } = req.body;
+  // Check for the presence of required fields
+  if (!learning) {
+    throw new ApiError(400, "Learning is required");
   }
-
-  // Find the company by companyId
-  const company = await Company.findOne({ id: companyId });
-  if (!company) {
-    throw new ApiError(404, "Company not found.");
+  if (!resourceLink) {
+    throw new ApiError(400, "Resource Link is required");
   }
 
   // Create a new Resource instance and save it
   const newResource = new Resource({
     learning,
     companyId,
+    resourceName,
     resourceLink,
     endDate,
   });
 
-  await newResource.save().then(async (savedResource) => {
+  // Save the new resource
+  const savedResource = await newResource.save();
+
+  // If companyId is provided, associate the resource with the company
+  if (companyId != null) {
+    // Find the company by companyId
+    const company = await Company.findOne({ id: companyId });
+    if (!company) {
+      throw new ApiError(404, "Company not found.");
+    }
+
     // Add the saved resource to the company's resource array
     company.resource.push(savedResource._id);
     await company.save();
-  });
+  }
 
   // Return a success response with the new resource data
   return res
@@ -60,10 +58,16 @@ const getResources = asyncMiddleware(async (req, res) => {
     .json(new ApiResponse(200, resources, "Resources retrieved successfully"));
 });
 
-// Update Resource by resource id
 const updateResource = asyncMiddleware(async (req, res) => {
   // Extract updated data from the request body
-  const { resourceId, learning, companyId, resourceLink, endDate } = req.body;
+  const {
+    resourceId,
+    learning,
+    companyId,
+    resourceName,
+    resourceLink,
+    endDate,
+  } = req.body;
 
   // Check if the resource id is valid
   if (!resourceId || !mongoose.Types.ObjectId.isValid(resourceId)) {
