@@ -1,0 +1,3 @@
+[submodule "cdpc-backend"]
+	path = cdpc-backend
+	url = https://github.com/Ravi-kumar9347/PlacementApp_Backend
